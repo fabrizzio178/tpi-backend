@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:18
+    container_name: logistica-db
+    ports:
+      - "5450:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: postgres        # dejamos postgres; el dump crea "logistica"
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d:ro
+      - pgroot:/var/lib/postgresql  # <— CAMBIO: NO usar /data en PG 18+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  pgroot:

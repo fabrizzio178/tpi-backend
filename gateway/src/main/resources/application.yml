@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: contenedores-route
+          uri: http://localhost:8081
+          predicates:
+            - Path=/contenedores/**
+          filters:
+            - name: RewritePath
+              args:
+                regexp: /contenedores(?<segment>/.*)?
+                replacement: /api/contenedores${segment}
+        - id: solicitudes-route
+          uri: http://localhost:8081
+          predicates:
+            - Path=/solicitudes/**
+          filters:
+            - name: RewritePath
+              args:
+                regexp: /solicitudes(?<segment>/.*)?
+                replacement: /api/solicitudes${segment}

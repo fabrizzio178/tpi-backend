@@ -1,0 +1,18 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5450/logistica?currentSchema=logistica
+    username: utn
+    password: utn123
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate.jdbc.time_zone: America/Buenos_Aires
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+logging:
+  org.springframework.jdbc.datasource: DEBUG
