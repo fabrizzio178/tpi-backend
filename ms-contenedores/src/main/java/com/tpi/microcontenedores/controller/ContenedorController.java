@@ -1,8 +1,9 @@
 package com.tpi.microcontenedores.controller;
 
-import java.util.Collections;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tpi.microcontenedores.entities.Contenedor;
 import com.tpi.microcontenedores.entities.Estado;
 import com.tpi.microcontenedores.services.ContenedorService;
+
 
 @RestController
 @RequestMapping("/api/contenedores")
@@ -22,18 +24,18 @@ public class ContenedorController {
     }
 
     @GetMapping
-    public List<Contenedor> obtenerContenedores(){
+    public ResponseEntity<List<Contenedor>> obtenerContenedores(){
         try{
             return service.findAll();
         } catch (Exception e) {
             // Manejo de excepciones
             System.out.println("\nError al obtener contenedores\n: " + e.getMessage());
-            return Collections.emptyList();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
     @GetMapping("/{id}")
-    public Contenedor obtenerContenedorPorId(@PathVariable Long id){
+    public ResponseEntity<Contenedor> obtenerContenedorPorId(@PathVariable Long id){
         try{
             return service.findById(id);
         } catch (Exception e) {
@@ -44,13 +46,13 @@ public class ContenedorController {
     };
 
     @GetMapping("{id}/estado")
-    public Estado obtenerEstadoContenedor(@PathVariable Long id){
+    public ResponseEntity<Estado> obtenerEstadoContenedor(@PathVariable Long id){
         try{
             return service.getEstadoById(id);
         } catch (Exception e) {
             // Manejo de excepciones
             System.out.println("\nError al obtener estado del contenedor\n: " + e.getMessage());
-            return null;
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
