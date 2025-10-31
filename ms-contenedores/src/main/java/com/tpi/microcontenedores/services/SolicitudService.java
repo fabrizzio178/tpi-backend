@@ -17,4 +17,8 @@ public class SolicitudService {
     public List<Solicitud> obtenerSolicitudes() {
         return repo.findAll();
     }
+
+    public void registrarSolicitud(Solicitud solicitud){
+        repo.save(solicitud);
+    }
 }

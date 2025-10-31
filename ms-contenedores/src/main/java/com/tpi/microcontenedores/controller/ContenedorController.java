@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tpi.microcontenedores.entities.Contenedor;
+import com.tpi.microcontenedores.entities.Estado;
 import com.tpi.microcontenedores.services.ContenedorService;
 
 @RestController
@@ -38,6 +39,17 @@ public class ContenedorController {
         } catch (Exception e) {
             // Manejo de excepciones
             System.out.println("\nError al obtener contenedor por ID\n: " + e.getMessage());
+            return null;
+        }
+    };
+
+    @GetMapping("{id}/estado")
+    public Estado obtenerEstadoContenedor(@PathVariable Long id){
+        try{
+            return service.getEstadoById(id);
+        } catch (Exception e) {
+            // Manejo de excepciones
+            System.out.println("\nError al obtener estado del contenedor\n: " + e.getMessage());
             return null;
         }
     }
