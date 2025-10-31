@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tpi.microcontenedores.entities.Contenedor;
 import com.tpi.microcontenedores.entities.Estado;
 import com.tpi.microcontenedores.services.ContenedorService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -55,5 +57,18 @@ public class ContenedorController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @GetMapping(params = "estado")
+    public ResponseEntity<List<Contenedor>> obtenerContenedoresPorEstado(@RequestParam String estado){
+        try{
+            return service.consultarEstadoPendiente(estado);
+        } catch (Exception e) {
+            // Manejo de excepciones
+            System.out.println("\nError al obtener contenedores por estado\n: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    
 
 }

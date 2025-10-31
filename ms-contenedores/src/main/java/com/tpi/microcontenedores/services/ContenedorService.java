@@ -12,6 +12,7 @@ import com.tpi.microcontenedores.entities.Estado;
 import com.tpi.microcontenedores.repository.ContenedorRepository;
 
 
+
 @Service
 public class ContenedorService {
     private final ContenedorRepository repo;
@@ -42,6 +43,18 @@ public class ContenedorService {
             return ResponseEntity.ok(contenedor.getEstado());
         }
         return ResponseEntity.notFound().build();
+    }
+
+    public ResponseEntity<List<Contenedor>> consultarEstadoPendiente(String nombre){
+        try{
+            List<Contenedor> pendientes = repo.findByEstadoNombre(nombre);
+            if(pendientes.isEmpty()){
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(pendientes);
+        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     public ResponseEntity<Contenedor> registrarContenedor(Contenedor contenedor){
